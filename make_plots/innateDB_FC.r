@@ -53,7 +53,7 @@ subset_data_up <- subset(df_order, logFC > .5)
 subset_data_down <- subset(df_order, logFC < -.5) 
 
 plot_first <- ggplot(df_order, aes(x=Geneid, y=logFC, color=Color)) + geom_point(size = 4) +
-  scale_color_manual(values = c("#BEAED4", "#7FC97F","gray47")) + #c("lightblue2", "lightpink2"))
+  scale_color_manual(values = c("#66C2A5", "#FC8D62","gray47")) + #"#66C2A5" greenish,  "#FC8D62" orange
   labs(title="first trimester female/male expression", x="gene ID", y="Fold change")+
   theme(axis.title.x=element_text(size=15), 
         axis.text.x=element_blank()) +
@@ -64,17 +64,17 @@ plot_first <- ggplot(df_order, aes(x=Geneid, y=logFC, color=Color)) + geom_point
   theme(legend.title=element_text(size=15)) +
   theme(legend.position = "none") + scale_y_continuous(name="Fold change", limits=c(-3, 3), breaks=c(-3,-2.5, -2, -1.5, -1,-.5, 0, .5, 1, 1.5, 2, 2.5, 3)) + 
   geom_hline(yintercept = 0, colour="gray38", linetype="dashed", size = 1) + 
-  geom_hline(yintercept = -.5, colour="#7FC97F", linetype="dashed", size = 1) + 
-  geom_hline(yintercept = .5, colour="#BEAED4", linetype="dashed", size = 1) + 
+  geom_hline(yintercept = -.5, colour="#FC8D62", linetype="dashed", size = 1) + 
+  geom_hline(yintercept = .5, colour="#66C2A5", linetype="dashed", size = 1) + 
   geom_text_repel(data=subset_data_up, aes(x = Geneid, y = logFC, label=Geneid), fontface="italic", segment.alpha = 1, box.padding = .5, color = "black", show.legend=FALSE, size = 4) +
   geom_text_repel(data=subset_data_down, aes(x = Geneid, y = logFC, label=Geneid), fontface="italic", segment.alpha = 1, box.padding = .5, color = "black", show.legend=FALSE, size = 4) +
   scale_x_discrete(expand = c(0.02,0.02)) +
 annotate(geom="text", x=300, y=1.25, label="up-regulated 
 female/male",
-                           color="#BEAED4", size = 4.5) + 
+                           color="#66C2A5", size = 4.5) + 
 annotate(geom="text", x=300, y=-1.5, label="down-regulated 
 female/male",
-                          color="#7FC97F", size = 4.5)
+                          color="#FC8D62", size = 4.5)
 plot_first
 ggsave("FC_placenta_firstTrimester_innateDB.pdf", plot_first,
        width = 5.5, height = 5.5)
@@ -109,7 +109,7 @@ subset_data_up <- subset(df_order, logFC > .5)
 subset_data_down <- subset(df_order, logFC < -.5) 
 
 plot_term <- ggplot(df_order, aes(x=Geneid, y=logFC, color=Color)) + geom_point(size = 4) +
-  scale_color_manual(values = c("#BEAED4", "#7FC97F", "gray47")) + #c("lightblue2", "lightpink2"))
+  scale_color_manual(values = c("#66C2A5", "#FC8D62", "gray47")) + #c("lightblue2", "lightpink2"))
   labs(title="term female/male expression", x="gene ID", y="Fold change")+
   theme(axis.title.x=element_text(size=15), 
         axis.text.x=element_blank()) +
@@ -120,17 +120,17 @@ plot_term <- ggplot(df_order, aes(x=Geneid, y=logFC, color=Color)) + geom_point(
   theme(legend.title=element_text(size=15)) +
   theme(legend.position = "none") + scale_y_continuous(name="Fold change", limits=c(-3, 3), breaks=c(-3, -2.5, -2, -1.5, -1,-.5, 0, .5, 1, 1.5, 2, 2.5, 3)) + 
   geom_hline(yintercept = 0, colour="gray38", linetype="dashed", size = 1) + 
-  geom_hline(yintercept = -.5, colour="#7FC97F", linetype="dashed", size = 1) + 
-  geom_hline(yintercept = .5, colour="#BEAED4", linetype="dashed", size = 1) + 
+  geom_hline(yintercept = -.5, colour="#FC8D62", linetype="dashed", size = 1) + 
+  geom_hline(yintercept = .5, colour="#66C2A5", linetype="dashed", size = 1) + 
   geom_text_repel(data=subset_data_up, aes(x = Geneid, y = logFC, label=Geneid), fontface="italic", segment.alpha = 1, box.padding = .5, color = "black", show.legend=FALSE, size = 4) +
   geom_text_repel(data=subset_data_down, aes(x = Geneid, y = logFC, label=Geneid), fontface="italic", segment.alpha = 1, box.padding = .5, color = "black", show.legend=FALSE, size = 4) +
   scale_x_discrete(expand = c(0.02,0.02)) +
   annotate(geom="text", x=300, y=1.25, label="up-regulated 
 female/male",
-           color="#BEAED4", size = 4.5) + 
+           color="#66C2A5", size = 4.5) + 
   annotate(geom="text", x=300, y=-1.5, label="down-regulated 
 female/male",
-           color="#7FC97F", size = 4.5)
+           color="#FC8D62", size = 4.5)
 plot_term
 ggsave("FC_placenta_Term_innateDB.pdf", plot_term,
        width = 5.5, height = 5.5)
