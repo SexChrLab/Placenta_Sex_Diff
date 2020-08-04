@@ -6,7 +6,8 @@ Sex differences in full-term, >= 36 weeks,  uncomplicated human placentas
 - FastQC, MultiQC, and bamstats for visualizing quality. bbduk to trim reads and remove adaptors. 
 - Reads aligned to a GRCh38 sex chromosomome complement reference genome. See https://github.com/SexChrLab/XY_RNAseq for more details on aligning to a sex chromosomome complement reference genome
 - Use the snakemake file `rna.snakefile` that includes the following steps:
- - trimming, alignmnet, obtaining counts, and generating bam stats. 
+- trimming, alignmnet, obtaining counts, and generating bam stats. 
+- see git clone git://github.com/SexChrLab/Placenta_Data_Processing.git for more details on data processing
 
 #### Step 2: Run Limma/Voom 
 - Use the r file `R_limmaVooom_placentaSexDiff.r` that includes the following steps:
