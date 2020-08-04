@@ -143,6 +143,4 @@ g <- ggarrange(plot_first, plot_term, ncol = 1, nrow = 2, align="h",
 ggsave("log2FC_innateDB_placentas.pdf", g)
 dev.off()
 
-subset(innateFirstTri, Geneid == "CXCL9")
-subset(innateTerm, Geneid == "CXCL9")
 

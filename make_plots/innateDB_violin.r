@@ -3,6 +3,7 @@ setwd(
 )
 library(reshape)
 library(ggpubr)
+library("gridExtra")
 
 df_merged_pisarska <-
   read.delim ("genelists/pisarska/vfit_placenta_df_genes.txt")
@@ -23,11 +24,11 @@ rbind.all.columns <- function(x, y) {
 df_merged <- rbind.all.columns(df_merged_placenta, df_merged_pisarska)
 
 innateDB_inter <- intersect(innateDB$Geneid, df_merged$Geneid)
-genes <- c("XIST", "DDX3X", "CXCL10", "CXCL9", "EGR1", "MSR1", "NLRCA")
-typeof(genes)
-genes2 <- as.character(up_female$Geneid)
-#placenta_gene_PLOTS <- "./FIGURES/ViolinJitters/innateDB_genes.pdf"
-#pdf(placenta_gene_PLOTS)
+genes <- c("XIST", "DDX3X", "CXCL10", "CXCL9", "EGR1", "MSR1")
+
+#genes2 <- as.character(up_female$Geneid)
+placenta_gene_PLOTS <- "./FIGURES/ViolinJitters/innateDB_genes.pdf"
+pdf(placenta_gene_PLOTS)
 
 # Function to plot histograms on top of each other
 violoin_Func <- function(a) {
@@ -68,6 +69,10 @@ violoin_Func <- function(a) {
 
 # Map: iterates through items in Meta (which is a list of dataframes)
 # and iterates through the names of the items in Meta simultaneously
-violinPlots <- Map(violoin_Func, a = genes2)
-violinPlots$DDX3X
-
+violinPlots <- Map(violoin_Func, a = genes)
+# DDX3X <- violinPlots$DDX3X
+# EGR1 <- violinPlots$EGR1
+# JUN <- violinPlots$JUN
+# MSR1 <- violinPlots$MSR1
+# 
+# grid.arrange(plot_first, DDX3X, EGR1, ncol = 2, nrow = 2, layout_matrix = rbind(c(1,1), c(2,3)))
