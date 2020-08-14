@@ -6,10 +6,10 @@ library(ggpubr)
 library("gridExtra")
 
 df_merged_pisarska <-
-  read.delim ("genelists/pisarska/vfit_placenta_df_genes.txt")
+  read.delim ("genelists/pisarska/cpm_placenta_df_genes.txt")
 df_merged_pisarska$group <- "late first trimester"
 df_merged_placenta <-
-  read.delim ("genelists/placentas_batch_1and2/vfit_placenta_df_genes.txt")
+  read.delim ("genelists/placentas_batch_1and2/cpm_placenta_df_genes.txt")
 df_merged_placenta$group <- "term >= 36 weeks"
 innateDB <- read.delim("innateDB/innateDB.txt", header = TRUE)
 
@@ -24,10 +24,12 @@ rbind.all.columns <- function(x, y) {
 df_merged <- rbind.all.columns(df_merged_placenta, df_merged_pisarska)
 
 innateDB_inter <- intersect(innateDB$Geneid, df_merged$Geneid)
-genes <- c("XIST", "DDX3X", "CXCL10", "CXCL9", "EGR1", "MSR1")
+genes <- c("XIST", "DDX3X", "CXCL10", "CXCL9", "EGR1", "MSR1", "JUN", "NLRC5", "PROCR", 
+           "IL2RB", "SERPING1", "IL1R2", "TREML2", "CXCR4", "LEP", "AQP3", "PRKX", "MMP12")
+#df_merged$value <- log10(df_merged$value)
 
 #genes2 <- as.character(up_female$Geneid)
-placenta_gene_PLOTS <- "./FIGURES/ViolinJitters/innateDB_genes.pdf"
+placenta_gene_PLOTS <- "./FIGURES/ViolinJitters/innateDB_genes_CPM.pdf"
 pdf(placenta_gene_PLOTS)
 
 # Function to plot histograms on top of each other
@@ -42,7 +44,7 @@ violoin_Func <- function(a) {
     geom_jitter(aes(shape = factor(sex)),
                 size = 3,
                 position = position_jitter(0.1)) +
-    theme(legend.position = "none") + ggtitle(paste0(a, " lcpm")) +
+    theme(legend.position = "none") + ggtitle(paste0(a, "cpm")) +
     theme(axis.title.x=element_text(size=15), 
           axis.text.x=element_text(size=12)) +
     theme(axis.title.y=element_text(size=15),
@@ -64,15 +66,16 @@ violoin_Func <- function(a) {
     stat_compare_means(method = "t.test",
                        label.x = 1.2,
                        label.y.npc = 1) +
-    labs(y = "lcpm")
+    labs(y = "cpm")
 }
 
 # Map: iterates through items in Meta (which is a list of dataframes)
 # and iterates through the names of the items in Meta simultaneously
 violinPlots <- Map(violoin_Func, a = genes)
+violinPlots
 violinPlots$CXCL9
 dev.off()
-violinPlots$EGR1
+violinPlots$DDX3X
 
 
 # DDX3X <- violinPlots$DDX3X

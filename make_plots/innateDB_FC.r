@@ -85,18 +85,19 @@ dev.off()
 innateTerm$FDRp <- p.adjust(innateTerm$wil_pval, n = length(innateTerm$wil_pval), method = "fdr")
 sigFDR <- subset(innateTerm, FDRp <= 0.05)
 dim(sigFDR)
-
+innateTerm$logFC <- NULL
+innateTerm$logFC <- log2((innateTerm$female_mean/innateTerm$male_mean))
 up_female <- subset(innateTerm, logFC > .5)
 up_female <- cbind(up_female, rep("FC =< 1", nrow(up_female)))
-colnames(up_female)[20] <- "Color"
+colnames(up_female)[14] <- "Color"
 
 up_male <- subset(innateTerm, logFC < -.5)
 up_male <- cbind(up_male, rep("FC >= 1", nrow(up_male)))
-colnames(up_male)[20] <- "Color"
+colnames(up_male)[14] <- "Color"
 
 nonsig <- subset(innateTerm, logFC <.5 & logFC > -.5)
 nonsig <- cbind(nonsig, rep("FC = 0", nrow(nonsig)))
-colnames(nonsig)[20] <- "Color"
+colnames(nonsig)[14] <- "Color"
 
 df_order <- rbind(up_female, up_male, nonsig)
 colnames(df_order)[1] <- "Geneid"
