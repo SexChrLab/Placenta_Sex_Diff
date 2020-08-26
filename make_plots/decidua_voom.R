@@ -154,6 +154,14 @@ table(keep)
 #------ 
 DGE_gene <- DGE_gene[keep,,keep.lib.sizes=FALSE]
 cpm_gene <- cpm(DGE_gene) #log2-transformed counts per gene per million mapped reads (cpm).
+DGE_genes <- DGE_gene$genes
+may <- cbind(DGE_genes, cpm_gene)
+may$length <- NULL
+may2 <- melt(may, id=c("Geneid", "chr"))
+pheno_p <- pheno_ExRemovals
+df_merged <- merge(may2, pheno_p, by.x="variable", by.y="sample", all.x=TRUE)
+write.table(df_merged, "genelists/deciduas/cpm_decidua_df_genes.txt", sep = "\t")
+
 lcpm_gene <- cpm(cpm_gene, log=TRUE) 
 
 keep<- rowSums(cpm_gene>0)>=0

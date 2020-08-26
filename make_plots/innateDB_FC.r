@@ -54,7 +54,7 @@ subset_data_down <- subset(df_order, logFC < -.5)
 
 plot_first <- ggplot(df_order, aes(x=Geneid, y=logFC, color=Color)) + geom_point(size = 4) +
   scale_color_manual(values = c("#66C2A5", "#FC8D62","gray47")) + #"#66C2A5" greenish,  "#FC8D62" orange
-  labs(title="first trimester female/male expression", x="gene ID", y="Fold change")+
+  labs(title="First trimester female/male expression", x=expression(gene~ID), y=expression(log[2]~fold~change))+
   theme(axis.title.x=element_text(size=15), 
         axis.text.x=element_blank()) +
   theme(axis.title.y=element_text(size=15),
@@ -62,7 +62,7 @@ plot_first <- ggplot(df_order, aes(x=Geneid, y=logFC, color=Color)) + geom_point
   theme(axis.title=element_text(size=15)) +
   theme(legend.text=element_text(size=12)) +
   theme(legend.title=element_text(size=15)) +
-  theme(legend.position = "none") + scale_y_continuous(name="Fold change", limits=c(-3, 3), breaks=c(-3,-2.5, -2, -1.5, -1,-.5, 0, .5, 1, 1.5, 2, 2.5, 3)) + 
+  theme(legend.position = "none") + scale_y_continuous(limits=c(-2, 2), breaks=c(-2, -1.5, -1,-.5, 0, .5, 1, 1.5, 2)) + 
   geom_hline(yintercept = 0, colour="gray38", linetype="dashed", size = 1) + 
   geom_hline(yintercept = -.5, colour="#FC8D62", linetype="dashed", size = 1) + 
   geom_hline(yintercept = .5, colour="#66C2A5", linetype="dashed", size = 1) + 
@@ -89,15 +89,15 @@ innateTerm$logFC <- NULL
 innateTerm$logFC <- log2((innateTerm$female_mean/innateTerm$male_mean))
 up_female <- subset(innateTerm, logFC > .5)
 up_female <- cbind(up_female, rep("FC =< 1", nrow(up_female)))
-colnames(up_female)[14] <- "Color"
+colnames(up_female)[18] <- "Color"
 
 up_male <- subset(innateTerm, logFC < -.5)
 up_male <- cbind(up_male, rep("FC >= 1", nrow(up_male)))
-colnames(up_male)[14] <- "Color"
+colnames(up_male)[18] <- "Color"
 
 nonsig <- subset(innateTerm, logFC <.5 & logFC > -.5)
 nonsig <- cbind(nonsig, rep("FC = 0", nrow(nonsig)))
-colnames(nonsig)[14] <- "Color"
+colnames(nonsig)[18] <- "Color"
 
 df_order <- rbind(up_female, up_male, nonsig)
 colnames(df_order)[1] <- "Geneid"
@@ -111,7 +111,7 @@ subset_data_down <- subset(df_order, logFC < -.5)
 
 plot_term <- ggplot(df_order, aes(x=Geneid, y=logFC, color=Color)) + geom_point(size = 4) +
   scale_color_manual(values = c("#66C2A5", "#FC8D62", "gray47")) + #c("lightblue2", "lightpink2"))
-  labs(title="term female/male expression", x="gene ID", y="Fold change")+
+  labs(title="Term female/male expression", x=expression(gene~ID), y=expression(log[2]~fold~change))+
   theme(axis.title.x=element_text(size=15), 
         axis.text.x=element_blank()) +
   theme(axis.title.y=element_text(size=15),
@@ -119,7 +119,7 @@ plot_term <- ggplot(df_order, aes(x=Geneid, y=logFC, color=Color)) + geom_point(
   theme(axis.title=element_text(size=15)) +
   theme(legend.text=element_text(size=12)) +
   theme(legend.title=element_text(size=15)) +
-  theme(legend.position = "none") + scale_y_continuous(name="Fold change", limits=c(-3, 3), breaks=c(-3, -2.5, -2, -1.5, -1,-.5, 0, .5, 1, 1.5, 2, 2.5, 3)) + 
+  theme(legend.position = "none") + scale_y_continuous(name="Fold change", limits=c(-2, 2), breaks=c(-2, -1.5, -1,-.5, 0, .5, 1, 1.5, 2)) + 
   geom_hline(yintercept = 0, colour="gray38", linetype="dashed", size = 1) + 
   geom_hline(yintercept = -.5, colour="#FC8D62", linetype="dashed", size = 1) + 
   geom_hline(yintercept = .5, colour="#66C2A5", linetype="dashed", size = 1) + 

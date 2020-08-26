@@ -15,9 +15,8 @@ df_merged_pisarska$group <- "late first trimester"
 df_merged_placenta <-
   read.delim ("genelists/placentas_batch_1and2/cpm_placenta_df_genes.txt")
 df_merged_placenta$group <- "term >= 36 weeks"
-#innateDB <- read.delim("innateDB/innateDB.txt", header = TRUE)
-# df_decidua <-
-#   read.delim ("genelists/deciduas/vfit_decidua_df_genes.txt")
+df_decidua <-read.delim ("genelists/deciduas/cpm_decidua_df_genes.txt")
+df_decidua$group <- "decidua"
 
 setwd(
   "~/Dropbox (ASU)/Placenta/BATCH2_PLACENTA_DECIDUA_ANALYSIS/HISAT_FeatureCounts/batch1_and_batch2/innateDB/"
@@ -35,17 +34,14 @@ rbind.all.columns <- function(x, y) {
 }
 df_merged <- rbind.all.columns(df_merged_placenta, df_merged_pisarska)
 df_merged$tissue <- c("placenta")
-#df_merged_placentaAndDecidua <- rbind.all.columns(df_merged, df_decidua)
+df_merged_placentaAndDecidua <- rbind.all.columns(df_merged, df_decidua)
 
 # gene lists 
-subset(df_merged_pisarska, Geneid == "CXCL10")
-subset(df_merged_placenta, Geneid == "CXCL10")
-
 innateDB_inter_pisarska <- intersect(innateDB$Geneid, df_merged_pisarska$Geneid)
 innateDB_inter_placenta <- intersect(innateDB$Geneid, df_merged_placenta$Geneid)
-#innateDB_inter_decidua <- intersect(innateDB$Geneid, df_decidua$Geneid)
+innateDB_inter_decidua <- intersect(innateDB$Geneid, df_decidua$Geneid)
 FirstAndTermGenes <- intersect(innateDB_inter_pisarska, innateDB_inter_placenta)
-#placentaAndDeciduaGenes <- intersect(innateDB_inter_decidua, FirstAndTermGenes)
+placentaAndDeciduaGenes <- intersect(innateDB_inter_decidua, FirstAndTermGenes)
 #----------------------------------- 
 # If the variances of the two groups being compared are different (heteroscedasticity), 
 # it’s possible to use the Welch t test, an adaptation of Student t-test.
@@ -131,19 +127,19 @@ for(i in innateDB_inter_placenta){
   # is the data in each group normally distributed
   # if the data is NOT normally distributed, 
   # use a Wilcox rank sum test
-#  wil <- wilcox.test(value ~sex, geneDF)
- # wil_pval <- c(wil_pval, wil$p.value)
+  wil <- wilcox.test(value ~sex, geneDF)
+  wil_pval <- c(wil_pval, wil$p.value)
   df_F <- subset(geneDF, sex == "female")
   female_mean <- c(female_mean, mean(df_F$value))
   female_median <- c(female_median, median(df_F$value))
  # sha_f <- shapiro.test(df_F$value)
-#  sha_f_pval <- c(sha_f_pval, sha_f$p.value)
+ # sha_f_pval <- c(sha_f_pval, sha_f$p.value)
   df_M <- subset(geneDF, sex == "male")
   male_mean <- c(male_mean, mean(df_M$value))
   male_median <- c(male_median, median(df_M$value))
-  #sha_m <- shapiro.test(df_M$value)
- # sha_m_pval <- c(sha_m_pval, sha_m$p.value)
-  df_pvals_term <- cbind(Geneid, female_mean, female_median, male_mean, male_median) #, vt_pval) #sha_f_pval, sha_m_pval, ttest_pval)
+  # sha_m <- shapiro.test(as.numeric(df_M$value))
+  # sha_m_pval <- c(sha_m_pval, sha_m$p.value)
+  df_pvals_term <- cbind(Geneid, female_mean, female_median, male_mean, male_median, vt_pval, ttest_pval, wil_pval)
 }
 df_pvals_term
 write.table(df_pvals_term, "df_pvals_term_ImmuneDBgenes.txt", sep = "\t", quote = FALSE, row.names = FALSE)

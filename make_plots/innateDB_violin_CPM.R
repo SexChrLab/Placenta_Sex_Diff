@@ -44,7 +44,7 @@ violoin_Func <- function(a) {
     geom_jitter(aes(shape = factor(sex)),
                 size = 3,
                 position = position_jitter(0.1)) +
-    theme(legend.position = "none") + ggtitle(paste0(a, "cpm")) +
+    theme(legend.position = "none") + ggtitle(paste0(a, " cpm")) +
     theme(axis.title.x=element_text(size=15), 
           axis.text.x=element_text(size=12)) +
     theme(axis.title.y=element_text(size=15),
