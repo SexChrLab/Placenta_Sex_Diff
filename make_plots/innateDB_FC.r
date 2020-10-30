@@ -62,7 +62,7 @@ plot_first <- ggplot(df_order, aes(x=Geneid, y=logFC, color=Color)) + geom_point
   theme(axis.title=element_text(size=15)) +
   theme(legend.text=element_text(size=12)) +
   theme(legend.title=element_text(size=15)) +
-  theme(legend.position = "none") + scale_y_continuous(limits=c(-2, 2), breaks=c(-2, -1.5, -1,-.5, 0, .5, 1, 1.5, 2)) + 
+  theme(legend.position = "none") + scale_y_continuous(name="Fold change", limits=c(-2, 2), breaks=c(-2, -1.5, -1,-.5, 0, .5, 1, 1.5, 2)) + 
   geom_hline(yintercept = 0, colour="gray38", linetype="dashed", size = 1) + 
   geom_hline(yintercept = -.5, colour="#FC8D62", linetype="dashed", size = 1) + 
   geom_hline(yintercept = .5, colour="#66C2A5", linetype="dashed", size = 1) + 

@@ -83,6 +83,10 @@ DGE_tran$samples$sample <- sample
 DGE_gene <- calcNormFactors(DGE_gene, method="TMM")
 
 fpkm <- rpkm(DGE_gene, gene.length=DGE_gene$genes$length)
+dim(fpkm)
+placenta_FPKM <- cbind(genes, fpkm)
+
+write.table(placenta_FPKM, "genelists/pisarska/placenta_geneLevel_FPKM.txt", sep = "\t", quote = FALSE, row.names = FALSE)
 
 female_mean_fpkm <- apply(as.data.frame(fpkm)
                           [(DGE_gene$samples$sex=="female")],

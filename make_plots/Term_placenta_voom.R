@@ -14,6 +14,8 @@ library(tidyverse)
 library(ggrepel)
 library(variancePartition)
 library(doParallel)
+library(stringr)
+library(reshape2)
 
 #--------------
 # set working directory 
@@ -200,6 +202,7 @@ head(df_merged)
 fpkm <- rpkm(dge_g, gene.length=dge_g$genes$Length)
 dim(fpkm)
 placenta_FPKM <- cbind(genes, fpkm)
+
 write.table(placenta_FPKM, "genelists/placentas_batch_1and2/placenta_geneLevel_FPKM.txt", sep = "\t", quote = FALSE, row.names = FALSE)
 female_mean_fpkm <- apply(as.data.frame(fpkm)
                           [(dge_g$samples$sex=="female")],
@@ -207,9 +210,8 @@ female_mean_fpkm <- apply(as.data.frame(fpkm)
 male_mean_fpkm <- apply(as.data.frame(fpkm)
                         [(dge_g$samples$sex=="male")],
                         1, mean, na.rm=TRUE)
-#keep <- (female_mean_fpkm > 0 | male_mean_fpkm > 0)
-
 keep <- (female_mean_fpkm > 1.0 | male_mean_fpkm > 1.0)
+
 #------ 
 dge_g <- dge_g[keep,,keep.lib.sizes=FALSE]
 dge_g <- calcNormFactors(dge_g, method="TMM")
@@ -1804,15 +1806,15 @@ p <- ggplot(data = df.t, aes(x = logFC, y = -log10(P.Value), color=color ))+
 p
 # Getting a subset of genes to label
 # subset_data <- subset(df.t, adj.P.Val<0.05 & logFC < -1 & (chr=="chrY") & (color=="5") | adj.P.Val<0.05 & logFC > 1 & (chr=="chrX") & (color=="4") )
-# subset_data <- subset(df.t, adj.P.Val<0.05 & (chr=="chrY") & (color=="5") 
-#                       | adj.P.Val<0.05 & (chr=="chrX") & (color=="4") 
-#                       | adj.P.Val<0.05 & (chr=="chrX") & (color=="4") 
-#                       |  adj.P.Val<0.05 & (chr!="chrX") & (chr!="chrY") & (color=="3"))
-subset_data <- subset(df.t, logFC < -1 & (chr=="chrY") & (color=="5") 
-                      | logFC > 1 & (chr=="chrX") & (color=="4") 
-                      | logFC < -1 & (chr=="chrX") & (color=="4") 
-                      | (chr!="chrX") & (chr!="chrY") & (color=="3") & logFC >1
-                      | (chr!="chrX") & (chr!="chrY") & (color=="3") & logFC < -1 )
+subset_data <- subset(df.t, adj.P.Val<0.05 & (chr=="chrY") & (color=="5")
+                      | adj.P.Val<0.05 & (chr=="chrX") & (color=="4") & logFC > .5
+                      | adj.P.Val<0.05 & (chr=="chrX") & (color=="4") & logFC < -.5
+                      |  adj.P.Val<0.05 & (chr!="chrX") & (chr!="chrY") & (color=="3"))
+# subset_data <- subset(df.t, logFC < -1 & (chr=="chrY") & (color=="5") 
+#                       | logFC > 1 & (chr=="chrX") & (color=="4") 
+#                       | logFC < -1 & (chr=="chrX") & (color=="4") 
+#                       | (chr!="chrX") & (chr!="chrY") & (color=="3") & logFC >1
+#                       | (chr!="chrX") & (chr!="chrY") & (color=="3") & logFC < -1 )
 subset_data<- unique(subset_data)
 
 # Volcanoplot with gene labels. Change log10(p-value) significance line to match 
