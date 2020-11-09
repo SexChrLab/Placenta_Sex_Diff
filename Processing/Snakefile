@@ -1,0 +1,21 @@
+import os
+
+configfile: "placenta_RNA_config.json"
+
+
+#ruleorder:  gzip_fastq >  mk_sy_ln_fastqs 
+Output_File_Directory = config["Output_File_Directory"]
+
+rule all:
+    input:
+       expand(Output_File_Directory + "{sample_name}.fastq", sample_name = config["sample_names"]),
+       expand(Output_File_Directory + "{sample_name}.fastq.gz", sample_name = config["sample_names"])
+
+        
+rule gz_fastq:
+    input:
+        fq1 = os.path.join(Output_File_Directory, "{sample_name}.fastq")
+    output:
+        out_fq1 = os.path.join(Output_File_Directory, "{sample_name}.fastq.gz")
+    shell:
+         "gzip -c {input.fq1} > {output.out_fq1}"
