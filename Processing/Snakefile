@@ -19,3 +19,22 @@ rule gz_fastq:
         out_fq1 = os.path.join(Output_File_Directory, "{sample_name}.fastq.gz")
     shell:
          "gzip -c {input.fq1} > {output.out_fq1}"
+
+
+
+configfile: "KO_mice.config.json"
+
+rule all:
+    input:
+        expand("/research/labs/neurology/fryer/m239830/200318_K00203_0388_AHGJWYBBXY/200318_K00203_0388_AHGJWYBBXY/BAM_STATS/{sample}/{sample}_summary.tsv", sample=config["sample_names"])
+
+rule analyze_reads_mapped:
+    input:
+        "/research/labs/neurology/fryer/m239830/200318_K00203_0388_AHGJWYBBXY/200318_K00203_0388_AHGJWYBBXY/BAM/{sample}.bam"
+    output:
+        "/research/labs/neurology/fryer/m239830/200318_K00203_0388_AHGJWYBBXY/200318_K00203_0388_AHGJWYBBXY/BAM_STATS/{sample}/{sample}_summary.tsv"
+    params:
+        sample = "{sample}"
+    shell:
+        """
+        python /research/labs/neurology/fryer/m239830/200318_K00203_0388_AHGJWYBBXY/200318_K00203_0388_AHGJWYBBXY/scripts/TEST.py --sample {params.sample} --bam_path {input} --summary {output}
