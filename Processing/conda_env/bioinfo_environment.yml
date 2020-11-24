@@ -1,0 +1,35 @@
+name: bioinfo
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+  - r
+dependencies:
+  - python=3
+  - entrez-direct
+  - bwa
+  - htslib
+  - bowtie2
+  - emboss
+  - bedtools
+  - samtools
+  - bamtools
+  - sra-tools
+  - cutadapt
+  - seqtk
+  - datamash
+  - bcftools
+  - freebayes
+  - subread
+  - bioawk
+  - hisat2
+  - bbmap
+  - trimmomatic
+  - fastqc
+  - snpeff
+  - picard
+  - blast
+  - perl-list-moreutils
+  - multiqc
+prefix: /home/kcolney/miniconda3/envs/bioinfo
+
