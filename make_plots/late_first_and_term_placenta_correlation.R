@@ -31,7 +31,7 @@ uniqueToWilson <- df.t[df.t$Geneid %in% uniqueWilsonDEG_genename, ]
 uniqueToGonzalez <- df.t[df.t$Geneid %in% uniquePisarskaDEG_genename, ]
 
 png(
-  filename = "Venn_Correlation_DEGs_datasets/log2FC_correlation_Gonzalez_vs_Wilson_sharedFDR05.png",
+  filename = "Venn_Correlation_DEGs_datasets/log2FC_correlation_Gonzalez_vs_Wilson_sharedFDR05_r.png",
   width = 4,
   height = 4,
   units = "in",
@@ -61,7 +61,7 @@ p1 <-
     "text",
     x = -6,
     y = 3,
-    label = paste("~italic(r)^2==", r2),
+    label = paste("~italic(r)==", r2),
     parse = TRUE,
     color = "gray29",
     size = 7
@@ -81,7 +81,7 @@ dev.off()
 dev.off()
 
 png(
-  filename = "Venn_Correlation_DEGs_datasets/log2FC_correlation_Gonzalez_vs_Wilson_uniqueToGonzalezFDR05.png",
+  filename = "Venn_Correlation_DEGs_datasets/log2FC_correlation_Gonzalez_vs_Wilson_uniqueToGonzalezFDR05_r.png",
   width = 4,
   height = 4,
   units = "in",
@@ -110,7 +110,7 @@ p1 <-
     "text",
     x = -6,
     y = 3,
-    label = paste("~italic(r)^2==", r2),
+    label = paste("~italic(r)==", r2),
     parse = TRUE,
     color = "gray29",
     size = 7
@@ -130,7 +130,7 @@ dev.off()
 dev.off()
 
 png(
-  filename = "Venn_Correlation_DEGs_datasets/log2FC_correlation_Gonzalez_vs_Wilson_uniqueToWilsonFDR05.png",
+  filename = "Venn_Correlation_DEGs_datasets/log2FC_correlation_Gonzalez_vs_Wilson_uniqueToWilsonFDR05_r.png",
   width = 4,
   height = 4,
   units = "in",
@@ -159,7 +159,7 @@ p1 <-
     "text",
     x = -6,
     y = 3,
-    label = paste("~italic(r)^2==", r2),
+    label = paste("~italic(r)==", r2),
     parse = TRUE,
     color = "gray29",
     size = 7
@@ -177,3 +177,4 @@ p1 + labs(
         axis.text.y = element_text(size = 18))
 dev.off()
 dev.off()
+
