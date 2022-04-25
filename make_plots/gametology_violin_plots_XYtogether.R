@@ -113,7 +113,6 @@ male_female_Xchr <- rbind(male_XY, female_X)
 # CPM column should be numeric
 male_female_Xchr$CPM <- as.numeric(as.character(male_female_Xchr$CPM))
 #--------------------------------------------
-male_female_Xchr_PLOT <- "./FIGURES/male_female_Xchr.pdf"
 
 # Function to plot histograms on top of each other
 violoin_Func <- function(a) {
@@ -175,14 +174,13 @@ TMSB4X <- violinPlots$TMSB4X
 VCX <- violinPlots$VCX
 AMELX <- violinPlots$AMELX
 
-ggsave("CPM_X+Y_together.pdf", grid.arrange(DDX3X, PCDH11X, USP9X, ZFX, UTX, ncol=5))
+ggsave("CPM_X+Y_together_v2.pdf", grid.arrange(DDX3X, PCDH11X, USP9X, ZFX, UTX, ncol=5))
 #---
 
 # rbind male and female X chromosome expression information
 male_female_Xchr_Only <- rbind(male_X, female_X)
 # CPM column should be numeric
 male_female_Xchr_Only$CPM <- as.numeric(as.character(male_female_Xchr_Only$CPM))
-male_female_XchrOnly_PLOT <- "./FIGURES/male_female_Xchr.pdf"
 
 # Function to plot histograms on top of each other
 violoin_Func <- function(a) {
@@ -244,10 +242,10 @@ VCX_x <- violinPlots$VCX
 AMELX_x <- violinPlots$AMELX
 
 #grid.arrange(DDX3X, PCDH11X, USP9X, ZFX, UTX, ncol = 5, nrow = 5, layout_matrix = rbind(c(1,1), c(2,3)))
-ggsave("CPM_XchrOnly_together.pdf", grid.arrange(DDX3X_x, PCDH11X_x, USP9X_x, ZFX_x, UTX_x, XIST_x,KDM5C_x,PRKX_x,RPS4X_x,EIF1AX_x,NLGN4X_x,RBMX_x,SOX3_x,TBL1X_x,TGIF2LX_x,TMSB4X_x,VCX_x,AMELX_x,ncol=6, nrow = 3))
-ggsave("CPM_X+Y_together.pdf", grid.arrange(DDX3X, PCDH11X, USP9X, ZFX, UTX,XIST,KDM5C,PRKX,RPS4X,EIF1AX,NLGN4X,RBMX,SOX3,TBL1X,TGIF2LX,TMSB4X,VCX,AMELX,ncol=6,nrow=3))
+ggsave("CPM_XchrOnly_together_v2.pdf", grid.arrange(DDX3X_x, PCDH11X_x, USP9X_x, ZFX_x, UTX_x, XIST_x,KDM5C_x,PRKX_x,RPS4X_x,EIF1AX_x,NLGN4X_x,RBMX_x,SOX3_x,TBL1X_x,TGIF2LX_x,TMSB4X_x,VCX_x,AMELX_x,ncol=6, nrow = 3))
+ggsave("CPM_X+Y_together_v2.pdf", grid.arrange(DDX3X, PCDH11X, USP9X, ZFX, UTX,XIST,KDM5C,PRKX,RPS4X,EIF1AX,NLGN4X,RBMX,SOX3,TBL1X,TGIF2LX,TMSB4X,VCX,AMELX,ncol=6,nrow=3))
 
-ggsave("CPM_TopBottom_together.pdf", grid.arrange(DDX3X_x, PCDH11X_x, USP9X_x, ZFX_x, UTX_x, XIST_x,KDM5C_x,PRKX_x,RPS4X_x,EIF1AX_x,NLGN4X_x,RBMX_x,SOX3_x,TBL1X_x,TGIF2LX_x,TMSB4X_x,VCX_x,AMELX_x,DDX3X, PCDH11X, USP9X, ZFX, UTX,XIST,KDM5C,PRKX,RPS4X,EIF1AX,NLGN4X,RBMX,SOX3,TBL1X,TGIF2LX,TMSB4X,VCX,AMELX, ncol=6, nrow = 6))
+ggsave("CPM_TopBottom_together_v2.pdf", grid.arrange(DDX3X_x, PCDH11X_x, USP9X_x, ZFX_x, UTX_x, XIST_x,KDM5C_x,PRKX_x,RPS4X_x,EIF1AX_x,NLGN4X_x,RBMX_x,SOX3_x,TBL1X_x,TGIF2LX_x,TMSB4X_x,VCX_x,AMELX_x,DDX3X, PCDH11X, USP9X, ZFX, UTX,XIST,KDM5C,PRKX,RPS4X,EIF1AX,NLGN4X,RBMX,SOX3,TBL1X,TGIF2LX,TMSB4X,VCX,AMELX, ncol=6, nrow = 6))
 
 #---------------------------------------------------------
 
@@ -255,8 +253,13 @@ ggsave("CPM_TopBottom_together.pdf", grid.arrange(DDX3X_x, PCDH11X_x, USP9X_x, Z
 
 # rbind male and female X chromosome expression information
 male_XY_modified = male_XY
-male_XY_modified$sex = gsub("male","male(DC)",male_XY$sex)
-male_female_X_XY <- rbind(male_X, female_X, male_XY_modified)
+male_XY_modified$sex = gsub("male","male(X+Y)",male_XY$sex)
+male_X_modified = male_X
+male_X_modified$sex = gsub("male","male(X only)",male_X$sex)
+female_X_modified = female_X
+female_X_modified$sex = gsub("female","female(X+X)",female_X$sex)
+
+male_female_X_XY <- rbind(male_X_modified, female_X_modified, male_XY_modified)
 # CPM column should be numeric
 male_female_X_XY$CPM <- as.numeric(as.character(male_female_X_XY$CPM))
 
@@ -290,9 +293,10 @@ violoin_Func <- function(a) {
     #   size = 5
     # ) +
     theme(axis.text = element_text(size = 3, colour="black")) +
-    stat_compare_means(comparisons = list(c("female","male"),c("female","male(DC)")), method = "t.test",
+    stat_compare_means(comparisons = list(c("female(X+X)","male(X only)"),c("female(X+X)","male(X+Y)")), method = "t.test",
                         #label.x = 1.2,
-                        label.y.npc = "center") +
+                        label.y.npc = "center",
+                        size = 3) +
     # stat_compare_means(comparisons = list(c("female","male(DC)")), method = "t.test",
     #                    #label.x = 2.2,
     #                    label.y.npc = "center") +
@@ -323,8 +327,8 @@ VCX_xy <- violinPlots$VCX
 AMELX_xy <- violinPlots$AMELX
 
 #grid.arrange(DDX3X, PCDH11X, USP9X, ZFX, UTX, ncol = 5, nrow = 5, layout_matrix = rbind(c(1,1), c(2,3)))
-ggsave("CPM_X_XY_together.pdf",grid.arrange(DDX3X_xy, PCDH11X_xy, USP9X_xy, ZFX_xy, UTX_xy,XIST_xy,KDM5C_xy,PRKX_xy,RPS4X_xy,EIF1AX_xy,NLGN4X_xy,RBMX_xy,SOX3_xy,TBL1X_xy,TGIF2LX_xy,TMSB4X_xy,VCX_xy,AMELX_xy, ncol=6, nrow = 3))
-ggsave("CPM_X_XY_together_differences.pdf",grid.arrange(XIST_xy,DDX3X_xy, PCDH11X_xy, ZFX_xy,UTX_xy, KDM5C_xy,RPS4X_xy,EIF1AX_xy,ncol=4, nrow = 2))
-ggsave("CPM_X_XY_together_nodiff.pdf",grid.arrange(USP9X_xy, PRKX_xy,NLGN4X_xy,RBMX_xy,SOX3_xy,TBL1X_xy,TGIF2LX_xy,TMSB4X_xy,VCX_xy,AMELX_xy, ncol=5, nrow = 2))
+ggsave("CPM_X_XY_together_v2.pdf",grid.arrange(DDX3X_xy, PCDH11X_xy, USP9X_xy, ZFX_xy, UTX_xy,XIST_xy,KDM5C_xy,PRKX_xy,RPS4X_xy,EIF1AX_xy,NLGN4X_xy,RBMX_xy,SOX3_xy,TBL1X_xy,TGIF2LX_xy,TMSB4X_xy,VCX_xy,AMELX_xy, ncol=6, nrow = 3))
+ggsave("CPM_X_XY_together_differences_v2.pdf",grid.arrange(XIST_xy,EIF1AX_xy,RPS4X_xy,KDM5C_xy,PCDH11X_xy,DDX3X_xy,ZFX_xy,UTX_xy, ncol=4, nrow = 2))
+ggsave("CPM_X_XY_together_nodiff_v2.pdf",grid.arrange(USP9X_xy, PRKX_xy,NLGN4X_xy,RBMX_xy,SOX3_xy,TBL1X_xy,TGIF2LX_xy,TMSB4X_xy,VCX_xy,AMELX_xy, ncol=5, nrow = 2))
 
 #---------------------------------------------------------
